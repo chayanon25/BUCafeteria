@@ -4,7 +4,6 @@ from typing import Optional
 # Location
 class LocationBase(BaseModel):
   name: str
-  description: Optional[str]
 
 class LocationCreate(LocationBase):
   pass
@@ -22,9 +21,7 @@ class RestaurantBase(BaseModel):
   image_url: Optional[str]
 
 class RestaurantCreate(RestaurantBase):
-  location_id: Optional[str] = None
-  new_location: Optional[LocationCreate] = None
-
+  location: str
   opening_hours: Optional[str] = None
   phone: Optional[str] = None
 
@@ -66,3 +63,36 @@ class MenuOut(MenuBase):
 
   class Config:
     orm_mode = True
+
+#Review
+
+class ReviewBase(BaseModel):
+  rating: int
+  comment: Optional[str]
+
+class ReviewCreate(ReviewBase):
+  restaurant_id: str
+  user_id: str
+
+class ReviewOut(ReviewBase):
+  id: str
+  user_id: str
+  restaurant_id: str
+  created_at: str
+
+  class Config:
+    orm_mode = True
+
+#User
+class UserBase(BaseModel):
+    username: str
+    role: Optional[str] = "user"
+
+class UserCreate(UserBase):
+    password: str
+
+class UserOut(UserBase):
+    id: str
+
+    class Config:
+        orm_mode = True
